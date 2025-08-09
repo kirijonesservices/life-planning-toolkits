@@ -1,4 +1,1494 @@
-<!DOCTYPE html>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div class="form-group">
+                                    <label>Last Updated</label>
+                                    <input type="date" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Next Review Date</label>
+                                    <input type="date" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addBeneficiaryEntry()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Another Account</button>
+                </div>
+            `;
+        }
+
+        function createSavingsForm() {
+            return `
+                <div class="template-form">
+                    <div style="margin-bottom: 20px; padding: 15px; background: #e1f5fe; border-radius: 10px;">
+                        <h4 style="margin-bottom: 15px;">💡 Savings Flow Strategy</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div class="form-group">
+                                <label>Monthly Smart Home Savings ($)</label>
+                                <input type="number" id="monthlySavings" placeholder="37" onchange="updateSavingsProjection()" />
+                            </div>
+                            <div class="form-group">
+                                <label>Priority 1: Emergency Fund Target ($)</label>
+                                <input type="number" id="emergencyTarget" placeholder="10,000" />
+                            </div>
+                            <div class="form-group">
+                                <label>Priority 2: Debt Balance ($)</label>
+                                <input type="number" id="debtTarget" placeholder="15,000" />
+                            </div>
+                            <div class="form-group">
+                                <label>Priority 3: Investment Goal ($)</label>
+                                <input type="number" id="investmentTarget" placeholder="25,000" />
+                            </div>
+                        </div>
+                        <div id="savingsProjection" style="margin-top: 15px; padding: 10px; background: white; border-radius: 5px;">
+                            <strong>Projected Timeline:</strong> <span id="projectionText">Enter your monthly savings to see timeline</span>
+                        </div>
+                    </div>
+                    
+                    <div id="savingsEntries">
+                        <div class="savings-entry" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;">
+                            <h4 style="margin-bottom: 15px; color: #333;">Month 1</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label>Energy Savings ($)</label>
+                                    <input type="number" placeholder="27" onchange="updateMonthlySavingsTotal(this)" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Insurance Savings ($)</label>
+                                    <input type="number" placeholder="10" onchange="updateMonthlySavingsTotal(this)" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Other Savings ($)</label>
+                                    <input type="number" placeholder="0" onchange="updateMonthlySavingsTotal(this)" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Total Monthly Savings</label>
+                                    <input type="number" readonly class="monthly-total" style="background: #f0f0f0;" />
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                                <div class="form-group">
+                                    <label>To Debt Payment ($)</label>
+                                    <input type="number" placeholder="37" />
+                                </div>
+                                <div class="form-group">
+                                    <label>To Emergency Fund ($)</label>
+                                    <input type="number" placeholder="0" />
+                                </div>
+                                <div class="form-group">
+                                    <label>To Investments ($)</label>
+                                    <input type="number" placeholder="0" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Running Debt Balance</label>
+                                    <input type="number" placeholder="14,963" style="background: #fff3e0;" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label>Notes</label>
+                                <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Focus all savings on high-interest debt first"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addSavingsMonth()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Next Month</button>
+                </div>
+            `;
+        }
+
+        function createActionPlanForm() {
+            return `
+                <div class="template-form">
+                    <div style="margin-bottom: 20px; padding: 15px; background: #fff8e1; border-radius: 10px;">
+                        <h4 style="margin-bottom: 15px;">🎯 12-Month Integration Strategy</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div class="form-group">
+                                <label>Total Budget Available ($)</label>
+                                <input type="number" id="totalActionBudget" placeholder="5,000" />
+                            </div>
+                            <div class="form-group">
+                                <label>Priority Focus</label>
+                                <select id="primaryFocus">
+                                    <option>Debt Elimination</option>
+                                    <option>Wealth Building</option>
+                                    <option>Risk Management</option>
+                                    <option>Balanced Approach</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Debt ($)</label>
+                                <input type="number" placeholder="15,000" />
+                            </div>
+                            <div class="form-group">
+                                <label>Emergency Fund Goal ($)</label>
+                                <input type="number" placeholder="12,000" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="actionPlanEntries">
+                        <div class="action-entry" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;">
+                            <h4 style="margin-bottom: 15px; color: #333;">Month 1 Action Plan</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                                <div class="form-group">
+                                    <label>🏠 Smart Home Action</label>
+                                    <textarea style="width: 100%; padding: 10px; border: 2px solid #4CAF50; border-radius: 5px; resize: vertical;" rows="3" placeholder="Install smart thermostat and smart lighting in main areas"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>💰 Finance Action</label>
+                                    <textarea style="width: 100%; padding: 10px; border: 2px solid #2196F3; border-radius: 5px; resize: vertical;" rows="3" placeholder="Set up automatic debt payment increase using energy savings"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>🏛️ Estate Planning Action</label>
+                                    <textarea style="width: 100%; padding: 10px; border: 2px solid #9C27B0; border-radius: 5px; resize: vertical;" rows="3" placeholder="Research estate planning attorneys and schedule consultation"></textarea>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                                <div class="form-group">
+                                    <label>Estimated Cost ($)</label>
+                                    <input type="number" placeholder="500" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Expected Savings Start</label>
+                                    <select>
+                                        <option>Immediate</option>
+                                        <option>Month 2</option>
+                                        <option>Month 3</option>
+                                        <option>Quarter 2</option>
+                                        <option>Quarter 3</option>
+                                        <option>Quarter 4</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select>
+                                        <option>Planning</option>
+                                        <option>In Progress</option>
+                                        <option>Completed</option>
+                                        <option>Delayed</option>
+                                        <option>Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label>Integration Notes</label>
+                                <textarea style="width: 100%; padding: 10px; border: 2px solid #FF9800; border-radius: 5px; resize: vertical;" rows="2" placeholder="How do these actions work together? What dependencies exist?"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addActionMonth()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Next Month</button>
+                </div>
+            `;
+        }
+
+        function createProfessionalTeamForm() {
+            return `
+                <div class="template-form">
+                    <div style="margin-bottom: 20px; padding: 15px; background: #f1f8e9; border-radius: 10px;">
+                        <h4 style="margin-bottom: 15px;">👥 Professional Team Overview</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Estate Planning Attorney</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Financial Advisor</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Tax Professional</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Insurance Agent</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Smart Home Installer</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Annual Team Meeting Scheduled</label>
+                        </div>
+                    </div>
+                    
+                    <div id="professionalEntries">
+                        <div class="professional-entry" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;">
+                            <h4 style="margin-bottom: 15px; color: #333;">Professional #1</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label>Professional Type</label>
+                                    <select>
+                                        <option>Estate Planning Attorney</option>
+                                        <option>Financial Advisor</option>
+                                        <option>Tax Professional/CPA</option>
+                                        <option>Insurance Agent</option>
+                                        <option>Smart Home Installer</option>
+                                        <option>Electrician</option>
+                                        <option>HVAC Technician</option>
+                                        <option>Mortgage Lender</option>
+                                        <option>Real Estate Agent</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" placeholder="John Attorney" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Company</label>
+                                    <input type="text" placeholder="Smith & Associates Law Firm" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="tel" placeholder="(555) 123-4567" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" placeholder="john@lawfirm.com" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Specialization</label>
+                                    <input type="text" placeholder="Wills & Trusts" />
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                                <div class="form-group">
+                                    <label>Last Contact</label>
+                                    <input type="date" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Next Scheduled</label>
+                                    <input type="date" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Annual Fee ($)</label>
+                                    <input type="number" placeholder="2,500" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label>Services Used</label>
+                                <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Will preparation, trust setup, annual review"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Notes</label>
+                                <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Preferred communication method, special instructions, etc."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addProfessionalEntry()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Another Professional</button>
+                </div>
+            `;
+        }
+
+        // Dynamic form entry functions
+        function addDeviceEntry() {
+            const container = document.getElementById('deviceEntries');
+            const entryCount = container.children.length + 1;
+            const newEntry = document.createElement('div');
+            newEntry.className = 'device-entry';
+            newEntry.style.cssText = 'border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;';
+            newEntry.innerHTML = `
+                <h4 style="margin-bottom: 15px; color: #333;">Device #${entryCount}</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="form-group">
+                        <label>Device Name</label>
+                        <input type="text" placeholder="Smart Light Switch" />
+                    </div>
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <input type="text" placeholder="Kasa" />
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select>
+                            <option>Climate</option>
+                            <option>Lighting</option>
+                            <option>Security</option>
+                            <option>Entertainment</option>
+                            <option>Appliances</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Protocol</label>
+                        <select>
+                            <option>WiFi</option>
+                            <option>Zigbee</option>
+                            <option>Z-Wave</option>
+                            <option>Thread</option>
+                            <option>Bluetooth</option>
+                            <option>Matter</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price ($)</label>
+                        <input type="number" placeholder="45" />
+                    </div>
+                    <div class="form-group">
+                        <label>Compatible With</label>
+                        <input type="text" placeholder="Alexa, Google" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>Notes</label>
+                    <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Installation notes, compatibility issues, etc."></textarea>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Device</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addBudgetEntry() {
+            const container = document.getElementById('budgetEntries');
+            const entryCount = container.children.length + 1;
+            const newEntry = document.createElement('div');
+            newEntry.className = 'budget-entry';
+            newEntry.style.cssText = 'border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;';
+            newEntry.innerHTML = `
+                <h4 style="margin-bottom: 15px; color: #333;">Item #${entryCount}</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                    <div class="form-group">
+                        <label>Phase</label>
+                        <select onchange="updateBudgetTotals()">
+                            <option value="1">Phase 1</option>
+                            <option value="2">Phase 2</option>
+                            <option value="3">Phase 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Room/Area</label>
+                        <input type="text" placeholder="Kitchen" />
+                    </div>
+                    <div class="form-group">
+                        <label>Device Category</label>
+                        <select>
+                            <option>Lighting</option>
+                            <option>Climate</option>
+                            <option>Security</option>
+                            <option>Entertainment</option>
+                            <option>Appliances</option>
+                            <option>Hub/Controller</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Specific Device</label>
+                        <input type="text" placeholder="Smart Outlets (4)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Cost ($)</label>
+                        <input type="number" placeholder="80" onchange="updateBudgetTotals()" />
+                    </div>
+                    <div class="form-group">
+                        <label>Priority (1-5)</label>
+                        <select>
+                            <option value="5">5 - Critical</option>
+                            <option value="4">4 - High</option>
+                            <option value="3">3 - Medium</option>
+                            <option value="2">2 - Low</option>
+                            <option value="1">1 - Nice to have</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div class="form-group">
+                        <label>Timeline</label>
+                        <input type="text" placeholder="Month 4" />
+                    </div>
+                    <div class="form-group">
+                        <label>ROI Timeline</label>
+                        <input type="text" placeholder="Variable" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>Notes</label>
+                    <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Installation requirements, compatibility notes, etc."></textarea>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Item</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addAssetEntry() {
+            const container = document.getElementById('assetEntries');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'asset-entry';
+            newEntry.style.cssText = 'border: 1px solid #4CAF50; padding: 15px; margin-bottom: 15px; border-radius: 10px; background: #f1f8e9;';
+            newEntry.innerHTML = `
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                    <div class="form-group">
+                        <label>Asset Description</label>
+                        <input type="text" placeholder="Investment Account" />
+                    </div>
+                    <div class="form-group">
+                        <label>Value ($)</label>
+                        <input type="number" placeholder="25,000" onchange="updateNetWorth()" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select>
+                        <option>Real Estate</option>
+                        <option>Investment Account</option>
+                        <option>Retirement Account</option>
+                        <option>Cash & Savings</option>
+                        <option>Vehicles</option>
+                        <option>Personal Property</option>
+                        <option>Other Assets</option>
+                    </select>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Asset</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addLiabilityEntry() {
+            const container = document.getElementById('liabilityEntries');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'liability-entry';
+            newEntry.style.cssText = 'border: 1px solid #f44336; padding: 15px; margin-bottom: 15px; border-radius: 10px; background: #ffebee;';
+            newEntry.innerHTML = `
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                    <div class="form-group">
+                        <label>Debt Description</label>
+                        <input type="text" placeholder="Credit Card" />
+                    </div>
+                    <div class="form-group">
+                        <label>Balance ($)</label>
+                        <input type="number" placeholder="5,000" onchange="updateNetWorth()" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select>
+                        <option>Mortgage</option>
+                        <option>Credit Card</option>
+                        <option>Auto Loan</option>
+                        <option>Student Loan</option>
+                        <option>Personal Loan</option>
+                        <option>Other Debt</option>
+                    </select>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Liability</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addDigitalAssetEntry() {
+            const container = document.getElementById('digitalAssetEntries');
+            const entryCount = container.children.length + 1;
+            const newEntry = document.createElement('div');
+            newEntry.className = 'digital-asset-entry';
+            newEntry.style.cssText = 'border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;';
+            newEntry.innerHTML = `
+                <h4 style="margin-bottom: 15px; color: #333;">Digital Asset #${entryCount}</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="form-group">
+                        <label>Asset Type</label>
+                        <select>
+                            <option>Financial Account</option>
+                            <option>Cryptocurrency</option>
+                            <option>Social Media</option>
+                            <option>Email Account</option>
+                            <option>Cloud Storage</option>
+                            <option>Subscription Service</option>
+                            <option>Domain/Website</option>
+                            <option>Digital Content</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Platform/Service</label>
+                        <input type="text" placeholder="Instagram" />
+                    </div>
+                    <div class="form-group">
+                        <label>Username/Account</label>
+                        <input type="text" placeholder="johnsmith" />
+                    </div>
+                    <div class="form-group">
+                        <label>Email Associated</label>
+                        <input type="email" placeholder="john@email.com" />
+                    </div>
+                    <div class="form-group">
+                        <label>Estimated Value ($)</label>
+                        <input type="number" placeholder="0" />
+                    </div>
+                    <div class="form-group">
+                        <label>2FA Method</label>
+                        <select>
+                            <option>Phone App</option>
+                            <option>SMS</option>
+                            <option>Email</option>
+                            <option>Hardware Key</option>
+                            <option>None</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <div class="form-group">
+                        <label>Password Location</label>
+                        <input type="text" placeholder="Password Manager" />
+                    </div>
+                    <div class="form-group">
+                        <label>Recovery Codes Location</label>
+                        <input type="text" placeholder="Safe Deposit Box" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>Beneficiary Access Plan</label>
+                    <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="How will beneficiaries access this account? Special instructions?"></textarea>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Asset</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addBeneficiaryEntry() {
+            const container = document.getElementById('beneficiaryEntries');
+            const entryCount = container.children.length + 1;
+            const newEntry = document.createElement('div');
+            newEntry.className = 'beneficiary-entry';
+            newEntry.style.cssText = 'border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;';
+            newEntry.innerHTML = `
+                <h4 style="margin-bottom: 15px; color: #333;">Account #${entryCount}</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="form-group">
+                        <label>Account Type</label>
+                        <select>
+                            <option>401k</option>
+                            <option>IRA/Roth IRA</option>
+                            <option>Life Insurance</option>
+                            <option>Bank Account</option>
+                            <option>Brokerage Account</option>
+                            <option>Pension</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Institution</label>
+                        <input type="text" placeholder="Fidelity" />
+                    </div>
+                    <div class="form-group">
+                        <label>Account Number (Last 4)</label>
+                        <input type="text" placeholder="****5678" />
+                    </div>
+                    <div class="form-group">
+                        <label>Account Value ($)</label>
+                        <input type="number" placeholder="25,000" />
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h5 style="margin-bottom: 10px; color: #666;">Primary Beneficiary</h5>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="Jane Smith" />
+                        </div>
+                        <div class="form-group">
+                            <label>Relationship</label>
+                            <input type="text" placeholder="Spouse" />
+                        </div>
+                        <div class="form-group">
+                            <label>Percentage</label>
+                            <input type="number" placeholder="100" max="100" />
+                        </div>
+                        <div class="form-group">
+                            <label>SSN (Last 4)</label>
+                            <input type="text" placeholder="****5678" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <h5 style="margin-bottom: 10px; color: #666;">Contingent Beneficiary</h5>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="John Smith Jr" />
+                        </div>
+                        <div class="form-group">
+                            <label>Relationship</label>
+                            <input type="text" placeholder="Son" />
+                        </div>
+                        <div class="form-group">
+                            <label>Percentage</label>
+                            <input type="number" placeholder="100" max="100" />
+                        </div>
+                        <div class="form-group">
+                            <label>SSN (Last 4)</label>
+                            <input type="text" placeholder="****9012" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                    <div class="form-group">
+                        <label>Last Updated</label>
+                        <input type="date" />
+                    </div>
+                    <div class="form-group">
+                        <label>Next Review Date</label>
+                        <input type="date" />
+                    </div>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Account</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addSavingsMonth() {
+            const container = document.getElementById('savingsEntries');
+            const entryCount = container.children.length + 1;
+            const newEntry = document.createElement('div');
+            newEntry.className = 'savings-entry';
+            newEntry.style.cssText = 'border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;';
+            newEntry.innerHTML = `
+                <h4 style="margin-bottom: 15px; color: #333;">Month ${entryCount}</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                    <div class="form-group">
+                        <label>Energy Savings ($)</label>
+                        <input type="number" placeholder="27" onchange="updateMonthlySavingsTotal(this)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Insurance Savings ($)</label>
+                        <input type="number" placeholder="10" onchange="updateMonthlySavingsTotal(this)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Other Savings ($)</label>
+                        <input type="number" placeholder="0" onchange="updateMonthlySavingsTotal(this)" />
+                    </div>
+                    <div class="form-group">
+                        <label>Total Monthly Savings</label>
+                        <input type="number" readonly class="monthly-total" style="background: #f0f0f0;" />
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div class="form-group">
+                        <label>To Debt Payment ($)</label>
+                        <input type="number" placeholder="37" />
+                    </div>
+                    <div class="form-group">
+                        <label>To Emergency Fund ($)</label>
+                        <input type="number" placeholder="0" />
+                    </div>
+                    <div class="form-group">
+                        <label>To Investments ($)</label>
+                        <input type="number" placeholder="0" />
+                    </div>
+                    <div class="form-group">
+                        <label>Running Debt Balance</label>
+                        <input type="number" placeholder="14,963" style="background: #fff3e0;" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>Notes</label>
+                    <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Progress notes, strategy adjustments, etc."></textarea>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Month</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addActionMonth() {
+            const container = document.getElementById('actionPlanEntries');
+            const entryCount = container.children.length + 1;
+            const newEntry = document.createElement('div');
+            newEntry.className = 'action-entry';
+            newEntry.style.cssText = 'border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;';
+            newEntry.innerHTML = `
+                <h4 style="margin-bottom: 15px; color: #333;">Month ${entryCount} Action Plan</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>🏠 Smart Home Action</label>
+                        <textarea style="width: 100%; padding: 10px; border: 2px solid #4CAF50; border-radius: 5px; resize: vertical;" rows="3" placeholder="Smart switches in bedrooms"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>💰 Finance Action</label>
+                        <textarea style="width: 100%; padding: 10px; border: 2px solid #2196F3; border-radius: 5px; resize: vertical;" rows="3" placeholder="Increase 401k contribution"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>🏛️ Estate Planning Action</label>
+                        <textarea style="width: 100%; padding: 10px; border: 2px solid #9C27B0; border-radius: 5px; resize: vertical;" rows="3" placeholder="Review beneficiary designations"></textarea>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div class="form-group">
+                        <label>Estimated Cost ($)</label>
+                        <input type="number" placeholder="180" />
+                    </div>
+                    <div class="form-group">
+                        <label>Expected Savings Start</label>
+                        <select>
+                            <option>Immediate</option>
+                            <option>Month 2</option>
+                            <option>Month 3</option>
+                            <option>Quarter 2</option>
+                            <option>Quarter 3</option>
+                            <option>Quarter 4</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select>
+                            <option>Planning</option>
+                            <option>In Progress</option>
+                            <option>Completed</option>
+                            <option>Delayed</option>
+                            <option>Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>Integration Notes</label>
+                    <textarea style="width: 100%; padding: 10px; border: 2px solid #FF9800; border-radius: 5px; resize: vertical;" rows="2" placeholder="How do these actions work together? Dependencies?"></textarea>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Month</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        function addProfessionalEntry() {
+            const container = document.getElementById('professionalEntries');
+            const entryCount = container.children.length + 1;
+            const newEntry = document.createElement('div');
+            newEntry.className = 'professional-entry';
+            newEntry.style.cssText = 'border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;';
+            newEntry.innerHTML = `
+                <h4 style="margin-bottom: 15px; color: #333;">Professional #${entryCount}</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="form-group">
+                        <label>Professional Type</label>
+                        <select>
+                            <option>Estate Planning Attorney</option>
+                            <option>Financial Advisor</option>
+                            <option>Tax Professional/CPA</option>
+                            <option>Insurance Agent</option>
+                            <option>Smart Home Installer</option>
+                            <option>Electrician</option>
+                            <option>HVAC Technician</option>
+                            <option>Mortgage Lender</option>
+                            <option>Real Estate Agent</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" placeholder="Sarah Financial Advisor" />
+                    </div>
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" placeholder="Wealth Management Group" />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" placeholder="(555) 234-5678" />
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="sarah@wealthmgmt.com" />
+                    </div>
+                    <div class="form-group">
+                        <label>Specialization</label>
+                        <input type="text" placeholder="Retirement Planning" />
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div class="form-group">
+                        <label>Last Contact</label>
+                        <input type="date" />
+                    </div>
+                    <div class="form-group">
+                        <label>Next Scheduled</label>
+                        <input type="date" />
+                    </div>
+                    <div class="form-group">
+                        <label>Annual Fee ($)</label>
+                        <input type="number" placeholder="1,500" />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>Services Used</label>
+                    <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Portfolio review, retirement planning, quarterly meetings"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Preferred communication method, special instructions, etc."></textarea>
+                </div>
+                <button type="button" onclick="removeEntry(this)" class="btn" style="background: #f44336; color: white; width: auto; margin-top: 10px;">Remove Professional</button>
+            `;
+            container.appendChild(newEntry);
+        }
+
+        // Utility functions for interactive templates
+        function removeEntry(button) {
+            const entry = button.closest('.device-entry, .budget-entry, .asset-entry, .liability-entry, .digital-asset-entry, .beneficiary-entry, .savings-entry, .action-entry, .professional-entry');
+            if (entry) {
+                entry.remove();
+                updateBudgetTotals();
+                updateNetWorth();
+            }
+        }
+
+        function updateBudgetTotals() {
+            const entries = document.querySelectorAll('.budget-entry');
+            let phase1Total = 0, phase2Total = 0, phase3Total = 0;
+            
+            entries.forEach(entry => {
+                const phase = entry.querySelector('select').value;
+                const cost = parseFloat(entry.querySelector('input[type="number"]').value) || 0;
+                
+                if (phase === '1') phase1Total += cost;
+                else if (phase === '2') phase2Total += cost;
+                else if (phase === '3') phase3Total += cost;
+            });
+            
+            const totalBudget = phase1Total + phase2Total + phase3Total;
+            
+            const phase1Element = document.getElementById('phase1Total');
+            const phase2Element = document.getElementById('phase2Total');
+            const phase3Element = document.getElementById('phase3Total');
+            const totalElement = document.getElementById('totalBudget');
+            
+            if (phase1Element) phase1Element.textContent = formatCurrency(phase1Total);
+            if (phase2Element) phase2Element.textContent = formatCurrency(phase2Total);
+            if (phase3Element) phase3Element.textContent = formatCurrency(phase3Total);
+            if (totalElement) totalElement.textContent = formatCurrency(totalBudget);
+        }
+
+        function updateNetWorth() {
+            const assetInputs = document.querySelectorAll('.asset-entry input[type="number"]');
+            const liabilityInputs = document.querySelectorAll('.liability-entry input[type="number"]');
+            
+            let totalAssets = 0;
+            let totalLiabilities = 0;
+            
+            assetInputs.forEach(input => {
+                totalAssets += parseFloat(input.value) || 0;
+            });
+            
+            liabilityInputs.forEach(input => {
+                totalLiabilities += parseFloat(input.value) || 0;
+            });
+            
+            const netWorth = totalAssets - totalLiabilities;
+            
+            const assetsElement = document.getElementById('totalAssets');
+            const liabilitiesElement = document.getElementById('totalLiabilities');
+            const netWorthElement = document.getElementById('netWorth');
+            
+            if (assetsElement) assetsElement.textContent = formatCurrency(totalAssets);
+            if (liabilitiesElement) liabilitiesElement.textContent = formatCurrency(totalLiabilities);
+            if (netWorthElement) {
+                netWorthElement.textContent = formatCurrency(netWorth);
+                netWorthElement.style.color = netWorth >= 0 ? '#4CAF50' : '#f44336';
+            }
+        }
+
+        function updateMonthlySavingsTotal(input) {
+            const entry = input.closest('.savings-entry');
+            const energySavings = parseFloat(entry.querySelector('input[placeholder="27"]').value) || 0;
+            const insuranceSavings = parseFloat(entry.querySelector('input[placeholder="10"]').value) || 0;
+            const otherSavings = parseFloat(entry.querySelector('input[placeholder="0"]').value) || 0;
+            const total = energySavings + insuranceSavings + otherSavings;
+            
+            const totalInput = entry.querySelector('.monthly-total');
+            if (totalInput) {
+                totalInput.value = total;
+            }
+        }
+
+        function updateSavingsProjection() {
+            const monthlySavings = parseFloat(document.getElementById('monthlySavings').value) || 0;
+            const emergencyTarget = parseFloat(document.getElementById('emergencyTarget').value) || 0;
+            const debtTarget = parseFloat(document.getElementById('debtTarget').value) || 0;
+            const investmentTarget = parseFloat(document.getElementById('investmentTarget').value) || 0;
+            
+            if (monthlySavings > 0) {
+                const emergencyMonths = Math.ceil(emergencyTarget / monthlySavings);
+                const debtMonths = Math.ceil(debtTarget / monthlySavings);
+                const investmentMonths = Math.ceil(investmentTarget / monthlySavings);
+                
+                const projectionText = `Emergency Fund: ${emergencyMonths} months | Debt Payoff: ${debtMonths} months | Investment Goal: ${investmentMonths} months`;
+                document.getElementById('projectionText').textContent = projectionText;
+            }
+        }
+
+        function printTemplate() {
+            // Hide buttons and non-essential elements for printing
+            const buttons = document.querySelectorAll('.btn');
+            const modal = document.querySelector('.calculator-modal');
+            
+            buttons.forEach(btn => btn.style.display = 'none');
+            modal.style.background = 'white';
+            
+            // Print the page
+            window.print();
+            
+            // Restore buttons after printing
+            setTimeout(() => {
+                buttons.forEach(btn => btn.style.display = 'inline-block');
+                modal.style.background = 'rgba(0,0,0,0.7)';
+            }, 1000);
+        }
+
+        function exportTemplateData(templateType) {
+            let csvContent = '';
+            const modal = document.querySelector('.modal-content');
+            
+            // Generate CSV based on template type
+            switch(templateType) {
+                case 'compatibility-checker':
+                    csvContent = generateCompatibilityCSV();
+                    break;
+                case 'smart-home-budget':
+                    csvContent = generateBudgetCSV();
+                    break;
+                case 'net-worth-tracker':
+                    csvContent = generateNetWorthCSV();
+                    break;
+                case 'digital-assets':
+                    csvContent = generateDigitalAssetsCSV();
+                    break;
+                case 'beneficiary-tracking':
+                    csvContent = generateBeneficiaryCSV();
+                    break;
+                case 'savings-tracker':
+                    csvContent = generateSavingsCSV();
+                    break;
+                case 'integrated-action-plan':
+                    csvContent = generateActionPlanCSV();
+                    break;
+                case 'professional-team':
+                    csvContent = generateProfessionalTeamCSV();
+                    break;
+            }
+            
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `${templateType}-data.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function generateCompatibilityCSV() {
+            let csv = 'Device Name,Brand,Category,Protocol,Price,Compatible With,Notes\n';
+            const entries = document.querySelectorAll('.device-entry');
+            
+            entries.forEach(entry => {
+                const inputs = entry.querySelectorAll('input, select, textarea');
+                const values = Array.from(inputs).map(input => {
+                    let value = input.value || '';
+                    return `"${value.replace(/"/g, '""')}"`;
+                });
+                csv += values.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+
+        function generateBudgetCSV() {
+            let csv = 'Phase,Room/Area,Device Category,Specific Device,Cost,Priority,Timeline,ROI Timeline,Notes\n';
+            const entries = document.querySelectorAll('.budget-entry');
+            
+            entries.forEach(entry => {
+                const inputs = entry.querySelectorAll('input, select, textarea');
+                const values = Array.from(inputs).map(input => {
+                    let value = input.value || '';
+                    return `"${value.replace(/"/g, '""')}"`;
+                });
+                csv += values.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+
+        function generateNetWorthCSV() {
+            let csv = 'Type,Description,Category,Value\n';
+            
+            // Assets
+            const assetEntries = document.querySelectorAll('.asset-entry');
+            assetEntries.forEach(entry => {
+                const description = entry.querySelector('input[placeholder*="Primary"], input[placeholder*="Investment"]').value || '';
+                const category = entry.querySelector('select').value || '';
+                const value = entry.querySelector('input[type="number"]').value || '0';
+                csv += `"Asset","${description}","${category}","${value}"\n`;
+            });
+            
+            // Liabilities
+            const liabilityEntries = document.querySelectorAll('.liability-entry');
+            liabilityEntries.forEach(entry => {
+                const description = entry.querySelector('input[placeholder*="Primary"], input[placeholder*="Credit"]').value || '';
+                const category = entry.querySelector('select').value || '';
+                const value = entry.querySelector('input[type="number"]').value || '0';
+                csv += `"Liability","${description}","${category}","${value}"\n`;
+            });
+            
+            return csv;
+        }
+
+        function generateDigitalAssetsCSV() {
+            let csv = 'Asset Type,Platform/Service,Username,Email,Value,2FA Method,Password Location,Recovery Codes,Beneficiary Access Plan\n';
+            const entries = document.querySelectorAll('.digital-asset-entry');
+            
+            entries.forEach(entry => {
+                const inputs = entry.querySelectorAll('input, select, textarea');
+                const values = Array.from(inputs).map(input => {
+                    let value = input.value || '';
+                    return `"${value.replace(/"/g, '""')}"`;
+                });
+                csv += values.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+
+        function generateBeneficiaryCSV() {
+            let csv = 'Account Type,Institution,Account Number,Account Value,Primary Beneficiary,Primary Relationship,Primary %,Primary SSN,Contingent Beneficiary,Contingent Relationship,Contingent %,Contingent SSN,Last Updated,Next Review\n';
+            const entries = document.querySelectorAll('.beneficiary-entry');
+            
+            entries.forEach(entry => {
+                const inputs = entry.querySelectorAll('input, select');
+                const values = Array.from(inputs).map(input => {
+                    let value = input.value || '';
+                    return `"${value.replace(/"/g, '""')}"`;
+                });
+                csv += values.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+
+        function generateSavingsCSV() {
+            let csv = 'Month,Energy Savings,Insurance Savings,Other Savings,Total Monthly,To Debt,To Emergency Fund,To Investments,Running Debt Balance,Notes\n';
+            const entries = document.querySelectorAll('.savings-entry');
+            
+            entries.forEach((entry, index) => {
+                const inputs = entry.querySelectorAll('input, textarea');
+                const month = index + 1;
+                const values = [month].concat(Array.from(inputs).map(input => {
+                    let value = input.value || '';
+                    return `"${value.replace(/"/g, '""')}"`;
+                }));
+                csv += values.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+
+        function generateActionPlanCSV() {
+            let csv = 'Month,Smart Home Action,Finance Action,Estate Planning Action,Estimated Cost,Expected Savings Start,Status,Integration Notes\n';
+            const entries = document.querySelectorAll('.action-entry');
+            
+            entries.forEach((entry, index) => {
+                const inputs = entry.querySelectorAll('input, select, textarea');
+                const month = index + 1;
+                const values = [month].concat(Array.from(inputs).map(input => {
+                    let value = input.value || '';
+                    return `"${value.replace(/"/g, '""')}"`;
+                }));
+                csv += values.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+
+        function generateProfessionalTeamCSV() {
+            let csv = 'Professional Type,Name,Company,Phone,Email,Specialization,Last Contact,Next Scheduled,Annual Fee,Services Used,Notes\n';
+            const entries = document.querySelectorAll('.professional-entry');
+            
+            entries.forEach(entry => {
+                const inputs = entry.querySelectorAll('input, select, textarea');
+                const values = Array.from(inputs).map(input => {
+                    let value = input.value || '';
+                    return `"${value.replace(/"/g, '""')}"`;
+                });
+                csv += values.join(',') + '\n';
+            });
+            
+            return csv;
+        }
+
+        function clearTemplateForm() {
+            if (confirm('Are you sure you want to clear all form data? This cannot be undone.')) {
+                const inputs = document.querySelectorAll('#calculatorContent input, #calculatorContent select, #calculatorContent textarea');
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox') {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
+                });
+                updateBudgetTotals();
+                updateNetWorth();
+                updateSavingsProjection();
+            }
+        }        // Template form creation functions
+        function createCompatibilityForm() {
+            return `
+                <div class="template-form">
+                    <div id="deviceEntries">
+                        <div class="device-entry" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;">
+                            <h4 style="margin-bottom: 15px; color: #333;">Device #1</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label>Device Name</label>
+                                    <input type="text" placeholder="Smart Thermostat" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Brand</label>
+                                    <input type="text" placeholder="Nest" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    <select>
+                                        <option>Climate</option>
+                                        <option>Lighting</option>
+                                        <option>Security</option>
+                                        <option>Entertainment</option>
+                                        <option>Appliances</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Protocol</label>
+                                    <select>
+                                        <option>WiFi</option>
+                                        <option>Zigbee</option>
+                                        <option>Z-Wave</option>
+                                        <option>Thread</option>
+                                        <option>Bluetooth</option>
+                                        <option>Matter</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Price ($)</label>
+                                    <input type="number" placeholder="249" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Compatible With</label>
+                                    <input type="text" placeholder="Google Assistant, Alexa" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label>Notes</label>
+                                <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Installation notes, compatibility issues, etc."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addDeviceEntry()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Another Device</button>
+                </div>
+            `;
+        }
+
+        function createBudgetForm() {
+            return `
+                <div class="template-form">
+                    <div style="margin-bottom: 20px; padding: 15px; background: #e3f2fd; border-radius: 10px;">
+                        <h4 style="margin-bottom: 10px;">Budget Summary</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                            <div><strong>Total Budget:</strong> <span id="totalBudget">$0</span></div>
+                            <div><strong>Phase 1:</strong> <span id="phase1Total">$0</span></div>
+                            <div><strong>Phase 2:</strong> <span id="phase2Total">$0</span></div>
+                            <div><strong>Phase 3:</strong> <span id="phase3Total">$0</span></div>
+                        </div>
+                    </div>
+                    <div id="budgetEntries">
+                        <div class="budget-entry" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;">
+                            <h4 style="margin-bottom: 15px; color: #333;">Item #1</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label>Phase</label>
+                                    <select onchange="updateBudgetTotals()">
+                                        <option value="1">Phase 1</option>
+                                        <option value="2">Phase 2</option>
+                                        <option value="3">Phase 3</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Room/Area</label>
+                                    <input type="text" placeholder="Living Room" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Device Category</label>
+                                    <select>
+                                        <option>Lighting</option>
+                                        <option>Climate</option>
+                                        <option>Security</option>
+                                        <option>Entertainment</option>
+                                        <option>Appliances</option>
+                                        <option>Hub/Controller</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Specific Device</label>
+                                    <input type="text" placeholder="Smart LED Bulbs (4)" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Cost ($)</label>
+                                    <input type="number" placeholder="120" onchange="updateBudgetTotals()" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Priority (1-5)</label>
+                                    <select>
+                                        <option value="5">5 - Critical</option>
+                                        <option value="4">4 - High</option>
+                                        <option value="3">3 - Medium</option>
+                                        <option value="2">2 - Low</option>
+                                        <option value="1">1 - Nice to have</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                                <div class="form-group">
+                                    <label>Timeline</label>
+                                    <input type="text" placeholder="Month 1" />
+                                </div>
+                                <div class="form-group">
+                                    <label>ROI Timeline</label>
+                                    <input type="text" placeholder="Immediate" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label>Notes</label>
+                                <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="Installation requirements, compatibility notes, etc."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addBudgetEntry()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Another Item</button>
+                </div>
+            `;
+        }
+
+        function createNetWorthForm() {
+            return `
+                <div class="template-form">
+                    <div style="margin-bottom: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                        <h4 style="margin-bottom: 10px;">Net Worth Summary</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                            <div><strong>Total Assets:</strong> <span id="totalAssets">$0</span></div>
+                            <div><strong>Total Liabilities:</strong> <span id="totalLiabilities">$0</span></div>
+                            <div><strong>Net Worth:</strong> <span id="netWorth" style="color: #4CAF50; font-size: 1.2em;">$0</span></div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <div>
+                            <h3 style="color: #4CAF50; margin-bottom: 15px;">💰 Assets</h3>
+                            <div id="assetEntries">
+                                <div class="asset-entry" style="border: 1px solid #4CAF50; padding: 15px; margin-bottom: 15px; border-radius: 10px; background: #f1f8e9;">
+                                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                                        <div class="form-group">
+                                            <label>Asset Description</label>
+                                            <input type="text" placeholder="Primary Residence" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Value ($)</label>
+                                            <input type="number" placeholder="450,000" onchange="updateNetWorth()" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Category</label>
+                                        <select>
+                                            <option>Real Estate</option>
+                                            <option>Investment Account</option>
+                                            <option>Retirement Account</option>
+                                            <option>Cash & Savings</option>
+                                            <option>Vehicles</option>
+                                            <option>Personal Property</option>
+                                            <option>Other Assets</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" onclick="addAssetEntry()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Asset</button>
+                        </div>
+                        
+                        <div>
+                            <h3 style="color: #f44336; margin-bottom: 15px;">💳 Liabilities</h3>
+                            <div id="liabilityEntries">
+                                <div class="liability-entry" style="border: 1px solid #f44336; padding: 15px; margin-bottom: 15px; border-radius: 10px; background: #ffebee;">
+                                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                                        <div class="form-group">
+                                            <label>Debt Description</label>
+                                            <input type="text" placeholder="Primary Mortgage" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Balance ($)</label>
+                                            <input type="number" placeholder="285,000" onchange="updateNetWorth()" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Category</label>
+                                        <select>
+                                            <option>Mortgage</option>
+                                            <option>Credit Card</option>
+                                            <option>Auto Loan</option>
+                                            <option>Student Loan</option>
+                                            <option>Personal Loan</option>
+                                            <option>Other Debt</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" onclick="addLiabilityEntry()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Liability</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createDigitalAssetsForm() {
+            return `
+                <div class="template-form">
+                    <div style="margin-bottom: 20px; padding: 15px; background: #fff3e0; border-radius: 10px;">
+                        <h4 style="margin-bottom: 10px;">🔐 Digital Asset Security Checklist</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Password Manager Setup</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> 2FA Enabled</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Recovery Codes Stored</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Beneficiary Access Planned</label>
+                        </div>
+                    </div>
+                    
+                    <div id="digitalAssetEntries">
+                        <div class="digital-asset-entry" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;">
+                            <h4 style="margin-bottom: 15px; color: #333;">Digital Asset #1</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label>Asset Type</label>
+                                    <select>
+                                        <option>Financial Account</option>
+                                        <option>Cryptocurrency</option>
+                                        <option>Social Media</option>
+                                        <option>Email Account</option>
+                                        <option>Cloud Storage</option>
+                                        <option>Subscription Service</option>
+                                        <option>Domain/Website</option>
+                                        <option>Digital Content</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Platform/Service</label>
+                                    <input type="text" placeholder="Bank of America" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Username/Account</label>
+                                    <input type="text" placeholder="johnsmith" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Email Associated</label>
+                                    <input type="email" placeholder="john@email.com" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Estimated Value ($)</label>
+                                    <input type="number" placeholder="25,000" />
+                                </div>
+                                <div class="form-group">
+                                    <label>2FA Method</label>
+                                    <select>
+                                        <option>Phone App</option>
+                                        <option>SMS</option>
+                                        <option>Email</option>
+                                        <option>Hardware Key</option>
+                                        <option>None</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+                                <div class="form-group">
+                                    <label>Password Location</label>
+                                    <input type="text" placeholder="Password Manager" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Recovery Codes Location</label>
+                                    <input type="text" placeholder="Safe Deposit Box" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label>Beneficiary Access Plan</label>
+                                <textarea style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;" rows="2" placeholder="How will beneficiaries access this account? Special instructions?"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addDigitalAssetEntry()" class="btn btn-calculator" style="width: auto; margin: 10px 0;">+ Add Another Asset</button>
+                </div>
+            `;
+        }
+
+        function createBeneficiaryForm() {
+            return `
+                <div class="template-form">
+                    <div style="margin-bottom: 20px; padding: 15px; background: #f3e5f5; border-radius: 10px;">
+                        <h4 style="margin-bottom: 10px;">📋 Beneficiary Review Checklist</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> All accounts have primary beneficiaries</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> All accounts have contingent beneficiaries</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Beneficiary contact info is current</label>
+                            <label style="display: flex; align-items: center;"><input type="checkbox" style="margin-right: 8px;"> Annual review scheduled</label>
+                        </div>
+                    </div>
+                    
+                    <div id="beneficiaryEntries">
+                        <div class="beneficiary-entry" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 10px; background: #f9f9f9;">
+                            <h4 style="margin-bottom: 15px; color: #333;">Account #1</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                <div class="form-group">
+                                    <label>Account Type</label>
+                                    <select>
+                                        <option>401k</option>
+                                        <option>IRA/Roth IRA</option>
+                                        <option>Life Insurance</option>
+                                        <option>Bank Account</option>
+                                        <option>Brokerage Account</option>
+                                        <option>Pension</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Institution</label>
+                                    <input type="text" placeholder="Vanguard" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Number (Last 4)</label>
+                                    <input type="text" placeholder="****1234" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Account Value ($)</label>
+                                    <input type="number" placeholder="75,000" />
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 20px;">
+                                <h5 style="margin-bottom: 10px; color: #666;">Primary Beneficiary</h5>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" placeholder="Jane Smith" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Relationship</label>
+                                        <input type="text" placeholder="Spouse" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Percentage</label>
+                                        <input type="number" placeholder="100" max="100" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>SSN (Last 4)</label>
+                                        <input type="text" placeholder="****5678" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 15px;">
+                                <h5 style="margin-bottom: 10px; color: #666;">Contingent Beneficiary</h5>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" placeholder="John Smith Jr" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Relationship</label>
+                                        <input type="text" placeholder="Son" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Percentage</label>
+                                        <input type="number" placeholder="100" max="100" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>SSN (Last 4)</label>
+                                        <input type="text" placeholder="****9012" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -380,14 +1870,14 @@
                         <div class="resource-title">Device Compatibility Checker</div>
                         <div class="resource-description">Ensure your smart devices work together in one ecosystem</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('compatibility-checker')">Download Template</a>
+                            <button class="btn btn-calculator" onclick="openTemplate('compatibility-checker')">Interactive Form</button>
                         </div>
                     </li>
                     <li class="resource-item">
                         <div class="resource-title">Smart Home Budget Planner</div>
                         <div class="resource-description">Phase-by-phase investment planning by room and priority</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('smart-home-budget')">Download Template</a>
+                            <button class="btn btn-calculator" onclick="openTemplate('smart-home-budget')">Interactive Form</button>
                         </div>
                     </li>
                 </ul>
@@ -416,7 +1906,7 @@
                         <div class="resource-title">Net Worth Tracker</div>
                         <div class="resource-description">Track assets, liabilities, and net worth progress over time</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('net-worth-tracker')">Download Template</a>
+                            <button class="btn btn-calculator" onclick="openTemplate('net-worth-tracker')">Interactive Form</button>
                         </div>
                     </li>
                     <li class="resource-item">
@@ -452,14 +1942,14 @@
                         <div class="resource-title">Digital Asset Inventory</div>
                         <div class="resource-description">Complete spreadsheet for cataloging all digital assets and access</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('digital-assets')">Download Template</a>
+                            <button class="btn btn-calculator" onclick="openTemplate('digital-assets')">Interactive Form</button>
                         </div>
                     </li>
                     <li class="resource-item">
                         <div class="resource-title">Beneficiary Tracking Template</div>
                         <div class="resource-description">Keep all beneficiary designations updated across all accounts</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('beneficiary-tracking')">Download Template</a>
+                            <button class="btn btn-calculator" onclick="openTemplate('beneficiary-tracking')">Interactive Form</button>
                         </div>
                     </li>
                 </ul>
@@ -481,21 +1971,21 @@
                         <div class="resource-title">Cross-Category Savings Tracker</div>
                         <div class="resource-description">Automatically redirect smart home savings to financial goals</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('savings-tracker')">Download Template</a>
+                            <button class="btn btn-calculator" onclick="openTemplate('savings-tracker')">Interactive Form</button>
                         </div>
                     </li>
                     <li class="resource-item">
                         <div class="resource-title">12-Month Integrated Action Plan</div>
                         <div class="resource-description">Coordinated timeline for smart home, finance, and estate planning</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('integrated-action-plan')">Download Template</a>
+                            <button class="btn btn-calculator" onclick="openTemplate('integrated-action-plan')">Interactive Form</button>
                         </div>
                     </li>
                     <li class="resource-item">
                         <div class="resource-title">Professional Team Contact Template</div>
                         <div class="resource-description">Organize all your advisors, contractors, and specialists</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('professional-team')">Download Template</a>
+                            <button class="btn btn-calculator" onclick="openTemplate('professional-team')">Interactive Form</button>
                         </div>
                     </li>
                 </ul>
@@ -546,7 +2036,79 @@
             }).format(num);
         }
 
-        // Calculator functions
+        // Template and calculator functions
+        function openTemplate(templateType) {
+            const modal = document.getElementById('calculatorModal');
+            const content = document.getElementById('calculatorContent');
+            
+            const templates = {
+                'compatibility-checker': {
+                    title: 'Smart Device Compatibility Checker',
+                    description: 'Track your smart home devices and ensure they work together seamlessly',
+                    type: 'form',
+                    content: createCompatibilityForm()
+                },
+                'smart-home-budget': {
+                    title: 'Smart Home Budget Planner',
+                    description: 'Plan your smart home investment phase by phase',
+                    type: 'form',
+                    content: createBudgetForm()
+                },
+                'net-worth-tracker': {
+                    title: 'Net Worth Tracker',
+                    description: 'Track your assets and liabilities to monitor financial progress',
+                    type: 'form',
+                    content: createNetWorthForm()
+                },
+                'digital-assets': {
+                    title: 'Digital Asset Inventory',
+                    description: 'Catalog all your digital assets for estate planning',
+                    type: 'form',
+                    content: createDigitalAssetsForm()
+                },
+                'beneficiary-tracking': {
+                    title: 'Beneficiary Tracking',
+                    description: 'Keep all beneficiary designations updated across accounts',
+                    type: 'form',
+                    content: createBeneficiaryForm()
+                },
+                'savings-tracker': {
+                    title: 'Cross-Category Savings Tracker',
+                    description: 'Track how smart home savings flow to other financial goals',
+                    type: 'form',
+                    content: createSavingsForm()
+                },
+                'integrated-action-plan': {
+                    title: '12-Month Integrated Action Plan',
+                    description: 'Coordinate your smart home, finance, and estate planning timeline',
+                    type: 'form',
+                    content: createActionPlanForm()
+                },
+                'professional-team': {
+                    title: 'Professional Team Contacts',
+                    description: 'Organize all your advisors, contractors, and specialists',
+                    type: 'form',
+                    content: createProfessionalTeamForm()
+                }
+            };
+            
+            const template = templates[templateType];
+            if (!template) return;
+            
+            content.innerHTML = `
+                <h2>${template.title}</h2>
+                <p style="margin-bottom: 20px; color: #666; font-style: italic;">${template.description}</p>
+                <div style="margin-bottom: 20px;">
+                    <button class="btn btn-calculator" onclick="printTemplate()" style="margin-right: 10px;">🖨️ Print/Save as PDF</button>
+                    <button class="btn btn-download" onclick="exportTemplateData('${templateType}')" style="margin-right: 10px;">📊 Export Data</button>
+                    <button class="btn btn-download" onclick="clearTemplateForm()">🗑️ Clear Form</button>
+                </div>
+                ${template.content}
+            `;
+            
+            modal.style.display = 'block';
+        }
+
         function openCalculator(calculatorType) {
             const modal = document.getElementById('calculatorModal');
             const content = document.getElementById('calculatorContent');
