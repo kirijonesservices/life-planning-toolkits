@@ -1,30 +1,4 @@
-<script>
-        // Number formatting functions
-        function formatNumber(num) {
-            return new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(num);
-        }
-        
-        function formatCurrency(num) {
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(num);
-        }
-        
-        function parseFormattedNumber(str) {
-            return parseFloat(str.replace(/[,$]/g, '')) || 0;
-        }
-        
-        // Format input fields as user types
-        function formatInputField(input, isCurrency = false) {
-            let value = parseFormattedNumber(input.value);
-            if (!isNaN(value)) {
-                input.value = isCurrency ? formatCurrency(value).replace('<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,6 +17,29 @@
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            color: #667eea;
+            padding: 12px 24px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        .back-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
         
         .container {
@@ -87,6 +84,7 @@
             text-decoration: none;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            cursor: pointer;
         }
         
         .nav-button:hover {
@@ -294,9 +292,9 @@
         .results {
             margin-top: 20px;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea20, #764ba220);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
             border-radius: 15px;
-            border: 1px solid #667eea40;
+            border: 1px solid rgba(102, 126, 234, 0.3);
         }
         
         .result-item {
@@ -315,29 +313,6 @@
         .result-value {
             font-weight: bold;
             color: #667eea;
-        }
-        
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.9);
-            color: #667eea;
-            padding: 12px 24px;
-            border: 2px solid #667eea;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-        
-        .back-button:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
         
         .footer-back {
@@ -381,9 +356,12 @@
                 grid-template-columns: 1fr;
             }
             
-            .contact-info {
-                flex-direction: column;
-                gap: 20px;
+            .back-button {
+                position: relative;
+                top: 10px;
+                left: 10px;
+                margin-bottom: 20px;
+                display: inline-block;
             }
         }
     </style>
@@ -399,7 +377,7 @@
                 <a href="#smart-home" class="nav-button">🏠 Smart Home</a>
                 <a href="#finance" class="nav-button">💰 Finance</a>
                 <a href="#estate" class="nav-button">🏛️ Estate Planning</a>
-                <a href="#integration" class="nav-button">🌟 Integration</a>
+                <a href="#integration" class="nav-button">🌟 Life Integration</a>
             </div>
         </div>
 
@@ -515,7 +493,7 @@
             <!-- Integration Resources -->
             <div class="resource-category integration" id="integration">
                 <div class="category-icon">🌟</div>
-                <h2 class="category-title">Integration Tools</h2>
+                <h2 class="category-title">Life Integration Tools</h2>
                 <ul class="resource-list">
                     <li class="resource-item">
                         <div class="resource-title">Complete Life Planning ROI</div>
@@ -566,53 +544,32 @@
     </div>
 
     <script>
-        // Sample calculator functions (basic implementation)
-        function openCalculator(calculatorType) {
-            const modal = document.getElementById('calculatorModal');
-            const content = document.getElementById('calculatorContent');
-            
-            content.innerHTML = `
-                <h2>${calculatorType.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} Calculator</h2>
-                <div class="calculator-form">
-                    <div class="form-group">
-                        <label>Sample Input Field</label>
-                        <input type="number" placeholder="Enter a value">
-                    </div>
-                    <button class="calculate-btn" onclick="calculateSample()">Calculate</button>
-                </div>
-                <div id="results" class="results" style="display: none;">
-                    <div class="result-item">
-                        <span class="result-label">Sample Result:</span>
-                        <span class="result-value">$0.00</span>
-                    </div>
-                </div>
-            `;
-            
-            modal.style.display = 'block';
+        // Number formatting functions
+        function formatNumber(num) {
+            return new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(num);
         }
         
-        function closeCalculator() {
-            document.getElementById('calculatorModal').style.display = 'none';
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(num);
         }
         
-        function calculateSample() {
-            document.getElementById('results').style.display = 'block';
+        function parseFormattedNumber(str) {
+            return parseFloat(str.replace(/[,$]/g, '')) || 0;
         }
         
-        function downloadTemplate(templateType) {
-            alert(`Downloading ${templateType} template... (This would trigger an actual download in a real implementation)`);
-        }
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('calculatorModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-    </script>
-</body>
-</html>, '') : formatNumber(value);
+        // Format input fields as user types
+        function formatInputField(input, isCurrency = false) {
+            let value = parseFormattedNumber(input.value);
+            if (!isNaN(value)) {
+                input.value = isCurrency ? formatCurrency(value).replace('$', '') : formatNumber(value);
             }
         }
         
@@ -934,7 +891,7 @@
             let months = 0;
             let totalInterest = 0;
             
-            while (balance > 0 && months < 600) { // Safety limit
+            while (balance > 0 && months < 600) {
                 const interestPayment = balance * avgRate;
                 const principalPayment = Math.min(payment - interestPayment, balance);
                 
@@ -974,9 +931,8 @@
             const totalInvestment = parseFormattedNumber(document.getElementById('totalInvestment').value);
             const riskTolerance = document.getElementById('riskTolerance').value;
             
-            let stockPercent = 100 - age; // Basic age-based rule
+            let stockPercent = 100 - age;
             
-            // Adjust for risk tolerance
             if (riskTolerance === 'conservative') {
                 stockPercent = Math.max(20, stockPercent - 20);
             } else if (riskTolerance === 'aggressive') {
@@ -1045,10 +1001,10 @@
             const state = document.getElementById('state').value;
             const charitableGifts = parseFormattedNumber(document.getElementById('charitableGifts').value);
             
-            const federalExemption = 12920000; // 2023 exemption amount
+            const federalExemption = 12920000;
             const netEstate = estateValue - charitableGifts;
             const federalTaxableEstate = Math.max(0, netEstate - federalExemption);
-            const federalTax = federalTaxableEstate * 0.40; // 40% federal rate
+            const federalTax = federalTaxableEstate * 0.40;
             
             let stateTax = 0;
             let stateExemption = 0;
@@ -1099,20 +1055,16 @@
             const expectedReturn = parseFormattedNumber(document.getElementById('expectedReturn').value) / 100 / 12;
             const timeHorizon = parseFormattedNumber(document.getElementById('timeHorizon').value);
             
-            // Calculate smart home payback
             const annualEnergySavings = energySavings * 12;
             const smartHomePayback = smartHomeInvestment / annualEnergySavings;
             
-            // Calculate investment growth with energy savings reinvested
             const totalMonthlyInvestment = monthlyInvestment + energySavings;
             const months = timeHorizon * 12;
             
-            // Future value of annuity formula
             const investmentValue = totalMonthlyInvestment * (((1 + expectedReturn) ** months - 1) / expectedReturn);
             const totalContributed = totalMonthlyInvestment * months;
             const investmentGrowth = investmentValue - totalContributed;
             
-            // Calculate total energy savings over period
             const totalEnergySavings = annualEnergySavings * timeHorizon;
             const netBenefit = investmentValue + totalEnergySavings - smartHomeInvestment;
             
@@ -1142,7 +1094,6 @@
         }
         
         function downloadTemplate(templateType) {
-            // This would typically trigger actual file downloads
             const templateNames = {
                 'compatibility-checker': 'Smart Device Compatibility Checker',
                 'smart-home-budget': 'Smart Home Budget Planner',
@@ -1158,7 +1109,6 @@
             alert(`Downloading "${templateName}" interactive template...\n\nThis would normally download a Google Sheets or Excel file with interactive formulas, dropdown menus, and automated calculations.`);
         }
         
-        // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('calculatorModal');
             if (event.target === modal) {
@@ -1166,7 +1116,6 @@
             }
         }
         
-        // Smooth scrolling for navigation buttons
         document.addEventListener('DOMContentLoaded', function() {
             const navButtons = document.querySelectorAll('.nav-button');
             navButtons.forEach(button => {
@@ -1183,592 +1132,6 @@
                 });
             });
         });
-    </script><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Calculators & Templates - Kiri Jones Services</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-            padding: 40px 0;
-        }
-        
-        .header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .header p {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-bottom: 30px;
-        }
-        
-        .toolkit-nav {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .nav-button {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px 24px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 30px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .nav-button:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-        
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .resource-category {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.3s ease;
-        }
-        
-        .resource-category:hover {
-            transform: translateY(-5px);
-        }
-        
-        .category-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .smart-home { color: #4CAF50; }
-        .finance { color: #2196F3; }
-        .estate-planning { color: #9C27B0; }
-        .integration { color: #FF9800; }
-        
-        .category-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .resource-list {
-            list-style: none;
-        }
-        
-        .resource-item {
-            margin-bottom: 15px;
-            padding: 15px;
-            background: rgba(0,0,0,0.02);
-            border-radius: 10px;
-            border-left: 4px solid;
-            transition: all 0.3s ease;
-        }
-        
-        .resource-item:hover {
-            background: rgba(0,0,0,0.05);
-            transform: translateX(5px);
-        }
-        
-        .smart-home .resource-item { border-left-color: #4CAF50; }
-        .finance .resource-item { border-left-color: #2196F3; }
-        .estate-planning .resource-item { border-left-color: #9C27B0; }
-        .integration .resource-item { border-left-color: #FF9800; }
-        
-        .resource-title {
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        
-        .resource-description {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-        
-        .resource-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-calculator {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-        }
-        
-        .btn-download {
-            background: linear-gradient(45deg, #f093fb, #f5576c);
-            color: white;
-        }
-        
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .calculator-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 2% auto;
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            position: absolute;
-            right: 20px;
-            top: 15px;
-        }
-        
-        .close:hover {
-            color: #333;
-        }
-        
-        .calculator-form {
-            margin-top: 20px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-        
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .calculate-btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin: 20px 0;
-            transition: all 0.3s ease;
-        }
-        
-        .calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        
-        .results {
-            margin-top: 20px;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea20, #764ba220);
-            border-radius: 15px;
-            border: 1px solid #667eea40;
-        }
-        
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .result-label {
-            font-weight: bold;
-            color: #333;
-        }
-        
-        .result-value {
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .back-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.9);
-            color: #667eea;
-            padding: 12px 24px;
-            border: 2px solid #667eea;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-        
-        .back-button:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-        
-        .footer-back {
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            margin-top: 40px;
-            backdrop-filter: blur(20px);
-        }
-        
-        .footer-back-button {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 25px;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        
-        .footer-back-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-        
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .toolkit-nav {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .resources-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-info {
-                flex-direction: column;
-                gap: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <a href="https://kirijonesservices.com" class="back-button">← Back to KiriJonesServices.com</a>
-    
-    <div class="container">
-        <div class="header">
-            <h1>🔧 Toolkit Resources</h1>
-            <p>Free Calculators & Templates to Transform Your Life</p>
-            <div class="toolkit-nav">
-                <a href="#smart-home" class="nav-button">🏠 Smart Home</a>
-                <a href="#finance" class="nav-button">💰 Finance</a>
-                <a href="#estate" class="nav-button">🏛️ Estate Planning</a>
-                <a href="#integration" class="nav-button">🌟 Integration</a>
-            </div>
-        </div>
-
-        <div class="resources-grid">
-            <!-- Smart Home Resources -->
-            <div class="resource-category smart-home" id="smart-home">
-                <div class="category-icon">🏠</div>
-                <h2 class="category-title">Smart Home Tools</h2>
-                <ul class="resource-list">
-                    <li class="resource-item">
-                        <div class="resource-title">Smart Home ROI Calculator</div>
-                        <div class="resource-description">Calculate payback timeline and energy savings for your smart home investment</div>
-                        <div class="resource-buttons">
-                            <button class="btn btn-calculator" onclick="openCalculator('smartHomeROI')">Use Calculator</button>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Energy Savings Estimator</div>
-                        <div class="resource-description">Estimate potential monthly and annual energy bill reductions</div>
-                        <div class="resource-buttons">
-                            <button class="btn btn-calculator" onclick="openCalculator('energySavings')">Use Calculator</button>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Device Compatibility Checker</div>
-                        <div class="resource-description">Ensure your smart devices work together in one ecosystem</div>
-                        <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('compatibility-checker')">Download Interactive Template</a>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Smart Home Budget Planner</div>
-                        <div class="resource-description">Phase-by-phase investment planning by room and priority</div>
-                        <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('smart-home-budget')">Download Interactive Template</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Finance Resources -->
-            <div class="resource-category finance" id="finance">
-                <div class="category-icon">💰</div>
-                <h2 class="category-title">Financial Tools</h2>
-                <ul class="resource-list">
-                    <li class="resource-item">
-                        <div class="resource-title">Emergency Fund Calculator</div>
-                        <div class="resource-description">Calculate your exact emergency fund target based on essential expenses</div>
-                        <div class="resource-buttons">
-                            <button class="btn btn-calculator" onclick="openCalculator('emergencyFund')">Use Calculator</button>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Debt Payoff Comparison</div>
-                        <div class="resource-description">Compare snowball vs. avalanche methods with exact timelines</div>
-                        <div class="resource-buttons">
-                            <button class="btn btn-calculator" onclick="openCalculator('debtPayoff')">Use Calculator</button>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Net Worth Tracker</div>
-                        <div class="resource-description">Track assets, liabilities, and net worth progress over time</div>
-                        <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('net-worth-tracker')">Download Interactive Template</a>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Investment Allocation Calculator</div>
-                        <div class="resource-description">Age-appropriate portfolio recommendations and rebalancing guide</div>
-                        <div class="resource-buttons">
-                            <button class="btn btn-calculator" onclick="openCalculator('investmentAllocation')">Use Calculator</button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Estate Planning Resources -->
-            <div class="resource-category estate-planning" id="estate">
-                <div class="category-icon">🏛️</div>
-                <h2 class="category-title">Estate Planning Tools</h2>
-                <ul class="resource-list">
-                    <li class="resource-item">
-                        <div class="resource-title">Life Insurance Needs Calculator</div>
-                        <div class="resource-description">Determine optimal coverage using income replacement and debt methods</div>
-                        <div class="resource-buttons">
-                            <button class="btn btn-calculator" onclick="openCalculator('lifeInsurance')">Use Calculator</button>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Estate Tax Estimator</div>
-                        <div class="resource-description">Calculate potential federal and state estate tax liability</div>
-                        <div class="resource-buttons">
-                            <button class="btn btn-calculator" onclick="openCalculator('estateTax')">Use Calculator</button>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Digital Asset Inventory</div>
-                        <div class="resource-description">Complete spreadsheet for cataloging all digital assets and access</div>
-                        <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('digital-assets')">Download Interactive Template</a>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Beneficiary Tracking Template</div>
-                        <div class="resource-description">Keep all beneficiary designations updated across all accounts</div>
-                        <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('beneficiary-tracking')">Download Interactive Template</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Integration Resources -->
-            <div class="resource-category integration" id="integration">
-                <div class="category-icon">🌟</div>
-                <h2 class="category-title">Integration Tools</h2>
-                <ul class="resource-list">
-                    <li class="resource-item">
-                        <div class="resource-title">Complete Life Planning ROI</div>
-                        <div class="resource-description">See how smart home, finance, and estate planning compound together</div>
-                        <div class="resource-buttons">
-                            <button class="btn btn-calculator" onclick="openCalculator('lifePlanningROI')">Use Calculator</button>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Cross-Category Savings Tracker</div>
-                        <div class="resource-description">Automatically redirect smart home savings to financial goals</div>
-                        <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('savings-tracker')">Download Interactive Template</a>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">12-Month Integrated Action Plan</div>
-                        <div class="resource-description">Coordinated timeline for smart home, finance, and estate planning</div>
-                        <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('integrated-action-plan')">Download Interactive Template</a>
-                        </div>
-                    </li>
-                    <li class="resource-item">
-                        <div class="resource-title">Professional Team Contact Template</div>
-                        <div class="resource-description">Organize all your advisors, contractors, and specialists</div>
-                        <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('professional-team')">Download Interactive Template</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-back">
-            <p style="color: #666; margin-bottom: 20px;">Need more comprehensive planning services?</p>
-            <a href="https://kirijonesservices.com" class="footer-back-button">← Return to KiriJonesServices.com</a>
-        </div>
-    </div>
-
-    <!-- Calculator Modal -->
-    <div id="calculatorModal" class="calculator-modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeCalculator()">&times;</span>
-            <div id="calculatorContent">
-                <!-- Calculator content will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Sample calculator functions (basic implementation)
-        function openCalculator(calculatorType) {
-            const modal = document.getElementById('calculatorModal');
-            const content = document.getElementById('calculatorContent');
-            
-            content.innerHTML = `
-                <h2>${calculatorType.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} Calculator</h2>
-                <div class="calculator-form">
-                    <div class="form-group">
-                        <label>Sample Input Field</label>
-                        <input type="number" placeholder="Enter a value">
-                    </div>
-                    <button class="calculate-btn" onclick="calculateSample()">Calculate</button>
-                </div>
-                <div id="results" class="results" style="display: none;">
-                    <div class="result-item">
-                        <span class="result-label">Sample Result:</span>
-                        <span class="result-value">$0.00</span>
-                    </div>
-                </div>
-            `;
-            
-            modal.style.display = 'block';
-        }
-        
-        function closeCalculator() {
-            document.getElementById('calculatorModal').style.display = 'none';
-        }
-        
-        function calculateSample() {
-            document.getElementById('results').style.display = 'block';
-        }
-        
-        function downloadTemplate(templateType) {
-            alert(`Downloading ${templateType} template... (This would trigger an actual download in a real implementation)`);
-        }
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('calculatorModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
     </script>
 </body>
 </html>
