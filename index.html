@@ -201,7 +201,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
-        .calculator-modal {
+        .calculator-modal, .template-modal {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -241,7 +241,7 @@
             color: #333;
         }
         
-        .calculator-form {
+        .calculator-form, .template-form {
             margin-top: 20px;
         }
         
@@ -256,7 +256,7 @@
             color: #333;
         }
         
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
             border: 2px solid #ddd;
@@ -265,12 +265,12 @@
             transition: border-color 0.3s ease;
         }
         
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: #667eea;
         }
         
-        .calculate-btn {
+        .calculate-btn, .generate-btn, .download-template-btn {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             padding: 15px 30px;
@@ -284,12 +284,12 @@
             transition: all 0.3s ease;
         }
         
-        .calculate-btn:hover {
+        .calculate-btn:hover, .generate-btn:hover, .download-template-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
         
-        .results {
+        .results, .template-output {
             margin-top: 20px;
             padding: 20px;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
@@ -313,6 +313,36 @@
         .result-value {
             font-weight: bold;
             color: #667eea;
+        }
+        
+        .template-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .template-section h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
         }
         
         .footer-back {
@@ -367,7 +397,7 @@
     </style>
 </head>
 <body>
-    <a href="https://kirijonesservices.com" class="back-button">← Back to KiriJonesServices.com</a>
+    <a href="https://kirijonesservices.com" class="back-button">← Back to kirijonesservices.com</a>
     
     <div class="container">
         <div class="header">
@@ -405,14 +435,14 @@
                         <div class="resource-title">Device Compatibility Checker</div>
                         <div class="resource-description">Ensure your smart devices work together in one ecosystem</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('compatibility-checker')">Download Interactive Template</a>
+                            <button class="btn btn-download" onclick="openTemplate('compatibility-checker')">Use Interactive Template</button>
                         </div>
                     </li>
                     <li class="resource-item">
                         <div class="resource-title">Smart Home Budget Planner</div>
                         <div class="resource-description">Phase-by-phase investment planning by room and priority</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('smart-home-budget')">Download Interactive Template</a>
+                            <button class="btn btn-download" onclick="openTemplate('smart-home-budget')">Use Interactive Template</button>
                         </div>
                     </li>
                 </ul>
@@ -441,7 +471,7 @@
                         <div class="resource-title">Net Worth Tracker</div>
                         <div class="resource-description">Track assets, liabilities, and net worth progress over time</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('net-worth-tracker')">Download Interactive Template</a>
+                            <button class="btn btn-download" onclick="openTemplate('net-worth-tracker')">Use Interactive Template</button>
                         </div>
                     </li>
                     <li class="resource-item">
@@ -477,14 +507,14 @@
                         <div class="resource-title">Digital Asset Inventory</div>
                         <div class="resource-description">Complete spreadsheet for cataloging all digital assets and access</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('digital-assets')">Download Interactive Template</a>
+                            <button class="btn btn-download" onclick="openTemplate('digital-assets')">Use Interactive Template</button>
                         </div>
                     </li>
                     <li class="resource-item">
                         <div class="resource-title">Beneficiary Tracking Template</div>
                         <div class="resource-description">Keep all beneficiary designations updated across all accounts</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('beneficiary-tracking')">Download Interactive Template</a>
+                            <button class="btn btn-download" onclick="openTemplate('beneficiary-tracking')">Use Interactive Template</button>
                         </div>
                     </li>
                 </ul>
@@ -506,21 +536,21 @@
                         <div class="resource-title">Cross-Category Savings Tracker</div>
                         <div class="resource-description">Automatically redirect smart home savings to financial goals</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('savings-tracker')">Download Interactive Template</a>
+                            <button class="btn btn-download" onclick="openTemplate('savings-tracker')">Use Interactive Template</button>
                         </div>
                     </li>
                     <li class="resource-item">
                         <div class="resource-title">12-Month Integrated Action Plan</div>
                         <div class="resource-description">Coordinated timeline for smart home, finance, and estate planning</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('integrated-action-plan')">Download Interactive Template</a>
+                            <button class="btn btn-download" onclick="openTemplate('integrated-action-plan')">Use Interactive Template</button>
                         </div>
                     </li>
                     <li class="resource-item">
                         <div class="resource-title">Professional Team Contact Template</div>
                         <div class="resource-description">Organize all your advisors, contractors, and specialists</div>
                         <div class="resource-buttons">
-                            <a href="#" class="btn btn-download" onclick="downloadTemplate('professional-team')">Download Interactive Template</a>
+                            <button class="btn btn-download" onclick="openTemplate('professional-team')">Use Interactive Template</button>
                         </div>
                     </li>
                 </ul>
@@ -528,8 +558,8 @@
         </div>
 
         <div class="footer-back">
-            <p style="color: #666; margin-bottom: 20px;">Need more comprehensive planning services?</p>
-            <a href="https://kirijonesservices.com" class="footer-back-button">← Return to KiriJonesServices.com</a>
+            <p style="color: #666; margin-bottom: 20px;">Need more ghostwriting services?</p>
+            <a href="https://kirijonesservices.com" class="footer-back-button">← Return to kirijonesservices.com</a>
         </div>
     </div>
 
@@ -543,7 +573,20 @@
         </div>
     </div>
 
+    <!-- Template Modal -->
+    <div id="templateModal" class="template-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTemplate()">&times;</span>
+            <div id="templateContent">
+                <!-- Template content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Storage for template data
+        let templateData = {};
+        
         // Number formatting functions
         function formatNumber(num) {
             return new Intl.NumberFormat('en-US', {
@@ -569,10 +612,10 @@
         function formatInputField(input, isCurrency = false) {
             let value = parseFormattedNumber(input.value);
             if (!isNaN(value)) {
-                input.value = isCurrency ? formatCurrency(value).replace('$', '') : formatNumber(value);
+                input.value = isCurrency ? formatCurrency(value).replace(', '') : formatNumber(value);
             }
         }
-        
+
         // Calculator implementations
         function openCalculator(calculatorType) {
             const modal = document.getElementById('calculatorModal');
@@ -712,10 +755,10 @@
                                 <input type="text" id="incomeYears" placeholder="10.00" onblur="formatInputField(this)">
                             </div>
                             <div class="form-group">
-                                <label>Existing Life Insurance ($)</label>
-                                <input type="text" id="existingInsurance" placeholder="50,000.00" onblur="formatInputField(this, true)">
+                                <label>Children's Education Fund ($)</label>
+                                <input type="text" id="educationFund" placeholder="100,000.00" onblur="formatInputField(this, true)">
                             </div>
-                            <button class="calculate-btn" onclick="calculateLifeInsurance()">Calculate Needs</button>
+                            <button class="calculate-btn" onclick="calculateLifeInsurance()">Calculate Coverage</button>
                         </div>
                         <div id="results" class="results" style="display: none;"></div>
                     `;
@@ -727,20 +770,29 @@
                         <div class="calculator-form">
                             <div class="form-group">
                                 <label>Total Estate Value ($)</label>
-                                <input type="text" id="estateValue" placeholder="2,000,000.00" onblur="formatInputField(this, true)">
+                                <input type="text" id="estateValue" placeholder="5,000,000.00" onblur="formatInputField(this, true)">
                             </div>
                             <div class="form-group">
                                 <label>State</label>
                                 <select id="state">
-                                    <option value="none">No State Estate Tax</option>
-                                    <option value="low">Low State Tax (2-8%)</option>
-                                    <option value="moderate">Moderate State Tax (8-12%)</option>
-                                    <option value="high">High State Tax (12-16%)</option>
+                                    <option value="no-tax">No State Estate Tax</option>
+                                    <option value="connecticut">Connecticut</option>
+                                    <option value="hawaii">Hawaii</option>
+                                    <option value="illinois">Illinois</option>
+                                    <option value="maine">Maine</option>
+                                    <option value="maryland">Maryland</option>
+                                    <option value="massachusetts">Massachusetts</option>
+                                    <option value="minnesota">Minnesota</option>
+                                    <option value="new-york">New York</option>
+                                    <option value="oregon">Oregon</option>
+                                    <option value="rhode-island">Rhode Island</option>
+                                    <option value="vermont">Vermont</option>
+                                    <option value="washington">Washington</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Charitable Gifts ($)</label>
-                                <input type="text" id="charitableGifts" placeholder="0.00" onblur="formatInputField(this, true)">
+                                <label>Charitable Deductions ($)</label>
+                                <input type="text" id="charitable" placeholder="0.00" onblur="formatInputField(this, true)">
                             </div>
                             <button class="calculate-btn" onclick="calculateEstateTax()">Calculate Tax</button>
                         </div>
@@ -758,84 +810,86 @@
                             </div>
                             <div class="form-group">
                                 <label>Monthly Energy Savings ($)</label>
-                                <input type="text" id="energySavings" placeholder="120.00" onblur="formatInputField(this, true)">
+                                <input type="text" id="energySavingsROI" placeholder="200.00" onblur="formatInputField(this, true)">
                             </div>
                             <div class="form-group">
-                                <label>Monthly Investment Contribution ($)</label>
-                                <input type="text" id="monthlyInvestment" placeholder="500.00" onblur="formatInputField(this, true)">
+                                <label>Investment Return Rate (%)</label>
+                                <input type="text" id="investmentReturn" placeholder="7.00" onblur="formatInputField(this)">
                             </div>
                             <div class="form-group">
-                                <label>Expected Annual Return (%)</label>
-                                <input type="text" id="expectedReturn" placeholder="7.00" onblur="formatInputField(this)">
-                            </div>
-                            <div class="form-group">
-                                <label>Time Horizon (Years)</label>
+                                <label>Years to Calculate</label>
                                 <input type="text" id="timeHorizon" placeholder="20.00" onblur="formatInputField(this)">
                             </div>
-                            <button class="calculate-btn" onclick="calculateLifePlanningROI()">Calculate Total ROI</button>
+                            <button class="calculate-btn" onclick="calculateLifePlanningROI()">Calculate Complete ROI</button>
                         </div>
                         <div id="results" class="results" style="display: none;"></div>
                     `;
                     break;
                     
                 default:
-                    calculatorHTML = `
-                        <h2>Calculator Coming Soon</h2>
-                        <p>This calculator is currently under development. Please check back soon!</p>
-                    `;
+                    calculatorHTML = '<h2>Calculator Coming Soon</h2><p>This calculator is under development.</p>';
             }
             
             content.innerHTML = calculatorHTML;
             modal.style.display = 'block';
         }
-        
-        // Calculator functions
+
+        // Calculator Functions
         function calculateSmartHomeROI() {
             const investment = parseFormattedNumber(document.getElementById('investment').value);
             const monthlySavings = parseFormattedNumber(document.getElementById('monthlySavings').value);
             const maintenance = parseFormattedNumber(document.getElementById('maintenance').value);
             
-            const annualSavings = (monthlySavings * 12) - maintenance;
-            const paybackPeriod = investment / annualSavings;
-            const fiveYearSavings = (annualSavings * 5) - investment;
-            const roi = (fiveYearSavings / investment) * 100;
+            if (!investment || !monthlySavings) {
+                alert('Please fill in all required fields.');
+                return;
+            }
             
-            document.getElementById('results').innerHTML = `
+            const annualSavings = (monthlySavings * 12) - maintenance;
+            const paybackYears = investment / annualSavings;
+            const fiveYearROI = ((annualSavings * 5) - investment) / investment * 100;
+            const tenYearROI = ((annualSavings * 10) - investment) / investment * 100;
+            
+            const resultsHTML = `
+                <h3>Smart Home ROI Results</h3>
                 <div class="result-item">
                     <span class="result-label">Annual Net Savings:</span>
                     <span class="result-value">${formatCurrency(annualSavings)}</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">Payback Period:</span>
-                    <span class="result-value">${formatNumber(paybackPeriod)} years</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">5-Year Total Savings:</span>
-                    <span class="result-value">${formatCurrency(fiveYearSavings)}</span>
+                    <span class="result-value">${paybackYears.toFixed(1)} years</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label">5-Year ROI:</span>
-                    <span class="result-value">${formatNumber(roi)}%</span>
+                    <span class="result-value">${fiveYearROI.toFixed(1)}%</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">10-Year ROI:</span>
+                    <span class="result-value">${tenYearROI.toFixed(1)}%</span>
                 </div>
             `;
+            
+            document.getElementById('results').innerHTML = resultsHTML;
             document.getElementById('results').style.display = 'block';
         }
-        
+
         function calculateEnergySavings() {
             const currentBill = parseFormattedNumber(document.getElementById('currentBill').value);
             const savingsPercent = parseFormattedNumber(document.getElementById('savingsPercent').value);
             const squareFootage = parseFormattedNumber(document.getElementById('squareFootage').value);
             
+            if (!currentBill || !savingsPercent) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
             const monthlySavings = currentBill * (savingsPercent / 100);
             const annualSavings = monthlySavings * 12;
-            const savingsPerSqFt = monthlySavings / squareFootage;
-            const newBill = currentBill - monthlySavings;
+            const savingsPerSqFt = squareFootage ? (annualSavings / squareFootage) : 0;
             
-            document.getElementById('results').innerHTML = `
-                <div class="result-item">
-                    <span class="result-label">New Monthly Bill:</span>
-                    <span class="result-value">${formatCurrency(newBill)}</span>
-                </div>
+            const resultsHTML = `
+                <h3>Energy Savings Results</h3>
                 <div class="result-item">
                     <span class="result-label">Monthly Savings:</span>
                     <span class="result-value">${formatCurrency(monthlySavings)}</span>
@@ -845,293 +899,57 @@
                     <span class="result-value">${formatCurrency(annualSavings)}</span>
                 </div>
                 <div class="result-item">
+                    <span class="result-label">New Monthly Bill:</span>
+                    <span class="result-value">${formatCurrency(currentBill - monthlySavings)}</span>
+                </div>
+                ${squareFootage ? `
+                <div class="result-item">
                     <span class="result-label">Savings per Sq Ft:</span>
                     <span class="result-value">${formatCurrency(savingsPerSqFt)}</span>
-                </div>
+                </div>` : ''}
             `;
+            
+            document.getElementById('results').innerHTML = resultsHTML;
             document.getElementById('results').style.display = 'block';
         }
-        
+
         function calculateEmergencyFund() {
             const monthlyExpenses = parseFormattedNumber(document.getElementById('monthlyExpenses').value);
             const targetMonths = parseFormattedNumber(document.getElementById('targetMonths').value);
             const currentBalance = parseFormattedNumber(document.getElementById('currentBalance').value);
             
+            if (!monthlyExpenses || !targetMonths) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
             const targetAmount = monthlyExpenses * targetMonths;
             const shortfall = Math.max(0, targetAmount - currentBalance);
-            const percentComplete = (currentBalance / targetAmount) * 100;
+            const currentCoverage = currentBalance / monthlyExpenses;
             
-            document.getElementById('results').innerHTML = `
+            const resultsHTML = `
+                <h3>Emergency Fund Results</h3>
                 <div class="result-item">
-                    <span class="result-label">Target Emergency Fund:</span>
+                    <span class="result-label">Target Fund Amount:</span>
                     <span class="result-value">${formatCurrency(targetAmount)}</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">Current Progress:</span>
-                    <span class="result-value">${formatNumber(percentComplete)}%</span>
+                    <span class="result-label">Current Coverage:</span>
+                    <span class="result-value">${currentCoverage.toFixed(1)} months</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">Amount Still Needed:</span>
+                    <span class="result-label">Remaining to Save:</span>
                     <span class="result-value">${formatCurrency(shortfall)}</span>
                 </div>
                 <div class="result-item">
-                    <span class="result-label">Monthly Coverage Available:</span>
-                    <span class="result-value">${formatNumber(currentBalance / monthlyExpenses)} months</span>
+                    <span class="result-label">Progress:</span>
+                    <span class="result-value">${((currentBalance / targetAmount) * 100).toFixed(1)}% Complete</span>
                 </div>
             `;
+            
+            document.getElementById('results').innerHTML = resultsHTML;
             document.getElementById('results').style.display = 'block';
         }
-        
+
         function calculateDebtPayoff() {
             const totalDebt = parseFormattedNumber(document.getElementById('totalDebt').value);
-            const avgRate = parseFormattedNumber(document.getElementById('avgInterestRate').value) / 100 / 12;
-            const payment = parseFormattedNumber(document.getElementById('monthlyPayment').value);
-            
-            let balance = totalDebt;
-            let months = 0;
-            let totalInterest = 0;
-            
-            while (balance > 0 && months < 600) {
-                const interestPayment = balance * avgRate;
-                const principalPayment = Math.min(payment - interestPayment, balance);
-                
-                if (principalPayment <= 0) break;
-                
-                balance -= principalPayment;
-                totalInterest += interestPayment;
-                months++;
-            }
-            
-            const totalPaid = payment * months;
-            const years = months / 12;
-            
-            document.getElementById('results').innerHTML = `
-                <div class="result-item">
-                    <span class="result-label">Payoff Time:</span>
-                    <span class="result-value">${formatNumber(years)} years (${months} months)</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Total Interest Paid:</span>
-                    <span class="result-value">${formatCurrency(totalInterest)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Total Amount Paid:</span>
-                    <span class="result-value">${formatCurrency(totalPaid)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Interest as % of Principal:</span>
-                    <span class="result-value">${formatNumber((totalInterest / totalDebt) * 100)}%</span>
-                </div>
-            `;
-            document.getElementById('results').style.display = 'block';
-        }
-        
-        function calculateInvestmentAllocation() {
-            const age = parseFormattedNumber(document.getElementById('age').value);
-            const totalInvestment = parseFormattedNumber(document.getElementById('totalInvestment').value);
-            const riskTolerance = document.getElementById('riskTolerance').value;
-            
-            let stockPercent = 100 - age;
-            
-            if (riskTolerance === 'conservative') {
-                stockPercent = Math.max(20, stockPercent - 20);
-            } else if (riskTolerance === 'aggressive') {
-                stockPercent = Math.min(90, stockPercent + 20);
-            }
-            
-            const bondPercent = 100 - stockPercent;
-            const stockAmount = totalInvestment * (stockPercent / 100);
-            const bondAmount = totalInvestment * (bondPercent / 100);
-            
-            document.getElementById('results').innerHTML = `
-                <div class="result-item">
-                    <span class="result-label">Stock Allocation:</span>
-                    <span class="result-value">${formatNumber(stockPercent)}% (${formatCurrency(stockAmount)})</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Bond Allocation:</span>
-                    <span class="result-value">${formatNumber(bondPercent)}% (${formatCurrency(bondAmount)})</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Risk Level:</span>
-                    <span class="result-value">${riskTolerance.charAt(0).toUpperCase() + riskTolerance.slice(1)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Rebalance Frequency:</span>
-                    <span class="result-value">Quarterly recommended</span>
-                </div>
-            `;
-            document.getElementById('results').style.display = 'block';
-        }
-        
-        function calculateLifeInsurance() {
-            const annualIncome = parseFormattedNumber(document.getElementById('annualIncome').value);
-            const outstandingDebts = parseFormattedNumber(document.getElementById('outstandingDebts').value);
-            const incomeYears = parseFormattedNumber(document.getElementById('incomeYears').value);
-            const existingInsurance = parseFormattedNumber(document.getElementById('existingInsurance').value);
-            
-            const incomeReplacement = annualIncome * incomeYears;
-            const totalNeeds = incomeReplacement + outstandingDebts;
-            const additionalNeeded = Math.max(0, totalNeeds - existingInsurance);
-            const coverageRatio = (totalNeeds / annualIncome);
-            
-            document.getElementById('results').innerHTML = `
-                <div class="result-item">
-                    <span class="result-label">Income Replacement Need:</span>
-                    <span class="result-value">${formatCurrency(incomeReplacement)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Total Insurance Need:</span>
-                    <span class="result-value">${formatCurrency(totalNeeds)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Additional Coverage Needed:</span>
-                    <span class="result-value">${formatCurrency(additionalNeeded)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Coverage as Multiple of Income:</span>
-                    <span class="result-value">${formatNumber(coverageRatio)}x</span>
-                </div>
-            `;
-            document.getElementById('results').style.display = 'block';
-        }
-        
-        function calculateEstateTax() {
-            const estateValue = parseFormattedNumber(document.getElementById('estateValue').value);
-            const state = document.getElementById('state').value;
-            const charitableGifts = parseFormattedNumber(document.getElementById('charitableGifts').value);
-            
-            const federalExemption = 12920000;
-            const netEstate = estateValue - charitableGifts;
-            const federalTaxableEstate = Math.max(0, netEstate - federalExemption);
-            const federalTax = federalTaxableEstate * 0.40;
-            
-            let stateTax = 0;
-            let stateExemption = 0;
-            
-            switch(state) {
-                case 'low':
-                    stateExemption = 5000000;
-                    stateTax = Math.max(0, netEstate - stateExemption) * 0.05;
-                    break;
-                case 'moderate':
-                    stateExemption = 3000000;
-                    stateTax = Math.max(0, netEstate - stateExemption) * 0.10;
-                    break;
-                case 'high':
-                    stateExemption = 1000000;
-                    stateTax = Math.max(0, netEstate - stateExemption) * 0.14;
-                    break;
-            }
-            
-            const totalTax = federalTax + stateTax;
-            const netToHeirs = netEstate - totalTax;
-            
-            document.getElementById('results').innerHTML = `
-                <div class="result-item">
-                    <span class="result-label">Taxable Estate (Federal):</span>
-                    <span class="result-value">${formatCurrency(federalTaxableEstate)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Federal Estate Tax:</span>
-                    <span class="result-value">${formatCurrency(federalTax)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">State Estate Tax:</span>
-                    <span class="result-value">${formatCurrency(stateTax)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Net to Heirs:</span>
-                    <span class="result-value">${formatCurrency(netToHeirs)}</span>
-                </div>
-            `;
-            document.getElementById('results').style.display = 'block';
-        }
-        
-        function calculateLifePlanningROI() {
-            const smartHomeInvestment = parseFormattedNumber(document.getElementById('smartHomeInvestment').value);
-            const energySavings = parseFormattedNumber(document.getElementById('energySavings').value);
-            const monthlyInvestment = parseFormattedNumber(document.getElementById('monthlyInvestment').value);
-            const expectedReturn = parseFormattedNumber(document.getElementById('expectedReturn').value) / 100 / 12;
-            const timeHorizon = parseFormattedNumber(document.getElementById('timeHorizon').value);
-            
-            const annualEnergySavings = energySavings * 12;
-            const smartHomePayback = smartHomeInvestment / annualEnergySavings;
-            
-            const totalMonthlyInvestment = monthlyInvestment + energySavings;
-            const months = timeHorizon * 12;
-            
-            const investmentValue = totalMonthlyInvestment * (((1 + expectedReturn) ** months - 1) / expectedReturn);
-            const totalContributed = totalMonthlyInvestment * months;
-            const investmentGrowth = investmentValue - totalContributed;
-            
-            const totalEnergySavings = annualEnergySavings * timeHorizon;
-            const netBenefit = investmentValue + totalEnergySavings - smartHomeInvestment;
-            
-            document.getElementById('results').innerHTML = `
-                <div class="result-item">
-                    <span class="result-label">Smart Home Payback Period:</span>
-                    <span class="result-value">${formatNumber(smartHomePayback)} years</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Total Energy Savings (${timeHorizon} years):</span>
-                    <span class="result-value">${formatCurrency(totalEnergySavings)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Investment Account Value:</span>
-                    <span class="result-value">${formatCurrency(investmentValue)}</span>
-                </div>
-                <div class="result-item">
-                    <span class="result-label">Total Net Benefit:</span>
-                    <span class="result-value">${formatCurrency(netBenefit)}</span>
-                </div>
-            `;
-            document.getElementById('results').style.display = 'block';
-        }
-        
-        function closeCalculator() {
-            document.getElementById('calculatorModal').style.display = 'none';
-        }
-        
-        function downloadTemplate(templateType) {
-            const templateNames = {
-                'compatibility-checker': 'Smart Device Compatibility Checker',
-                'smart-home-budget': 'Smart Home Budget Planner',
-                'net-worth-tracker': 'Net Worth Tracking Spreadsheet',
-                'digital-assets': 'Digital Asset Inventory',
-                'beneficiary-tracking': 'Beneficiary Designation Tracker',
-                'savings-tracker': 'Cross-Category Savings Tracker',
-                'integrated-action-plan': '12-Month Integrated Action Plan',
-                'professional-team': 'Professional Team Contact Manager'
-            };
-            
-            const templateName = templateNames[templateType] || 'Template';
-            alert(`Downloading "${templateName}" interactive template...\n\nThis would normally download a Google Sheets or Excel file with interactive formulas, dropdown menus, and automated calculations.`);
-        }
-        
-        window.onclick = function(event) {
-            const modal = document.getElementById('calculatorModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const navButtons = document.querySelectorAll('.nav-button');
-            navButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-</body>
-</html>
